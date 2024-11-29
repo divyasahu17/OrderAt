@@ -38,8 +38,7 @@ export default function App() {
       if (token) setToken(token)
       setIsAppReady(true)
     })()
-  }, [])
-
+  }, [])107790055481567420245
   useEffect(() => {
     // eslint-disable-next-line no-undef
     if (__DEV__) return

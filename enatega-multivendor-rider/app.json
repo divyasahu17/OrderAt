@@ -37,7 +37,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.rider.app",
       "config": {
-        "googleMapsApiKey": "AIzaSyCaXzEgiEKTtQgQhy0yPuBDA4bD7BFoPOY"
+        "googleMapsApiKey": "AIzaSgdfgyCaXzEgiEKTtgfdQgQhy0yPuBDA4bD7BFoPOY"
       },
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) uses your location for features like finding orders nearby and tracking customer orders!.",
@@ -57,21 +57,21 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCaXzEgiEKTtQgQhy0yPuBDA4bD7BFoPOY"
+          "apiKey": "AIzaSyCaXzEgiEKTtQgdfggQhy0yPuBDA4bD7BFoPOY"
         }
       },
       "package": "com.rider.app"
     },
     "extra": {
       "eas": {
-        "projectId": "417dbabb-e049-4341-b2f3-88f1cd3f491d"
+        "projectId": "417dbabb-e049-4341-b2f3-88f1cd3gfdgf491d"
       }
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/417dbabb-e049-4341-b2f3-88f1cd3f491d"
+      "url": "https://u.expo.dev/417dbabb-e049-4341-b2f3-88f1cfgd3f491d"
     }
   },
   "hooks": {
@@ -81,7 +81,7 @@
         "config": {
           "organization": "ninjas-code",
           "project": "enatega-multivendor-app",
-          "authToken": "744ed798e04a40a896b0269c25f945de0e166db8362e41969b64d5e07ca80e65"
+          "authToken": "744ed798e04a40a896b0269c25f945de0e1665as3db8362e41969b64d5e07ca80e65"
         }
       }
     ]

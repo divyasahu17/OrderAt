@@ -38,7 +38,7 @@
           "config": {
             "organization": "ninjas-code",
             "project": "enatega-multivendor-app",
-            "authToken": "744ed798e04a40a896b0269c25f945de0e166db8362e41969b64d5e07ca80e65"
+            "authToken": "744ed798e04a40a896b025569c25f945de0e166db8362e41969b644d5e07ca80e65"
           }
         }
       ]
@@ -48,7 +48,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "321c1437-c038-47fa-aae2-3588254cf938"
+        "projectId": "321c14237-c038-47fa-aae2-35882254cf938"
       }
     },
     "owner": "mahmoudattia",

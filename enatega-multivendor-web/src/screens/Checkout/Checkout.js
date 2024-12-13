@@ -111,6 +111,7 @@ function Checkout() {
   const [selectedDate, handleDateChange] = useState(new Date());
   const [isPickUp, setIsPickUp] = useState(false);
   const [deliveryCharges, setDeliveryCharges] = useState(0);
+  const [shouldAddMinimumFee, setShouldAddMinimumFee] = useState(false);
 
   let restCoordinates = {};
   const { loading, data, error } = useRestaurant(cartRestaurant);
@@ -140,18 +141,29 @@ function Checkout() {
         const lonOrigin = Number(data.restaurant.location.coordinates[0]);
         const latDest = Number(location.latitude);
         const longDest = Number(location.longitude);
+  
         const distance = await calculateDistance(
           latOrigin,
           lonOrigin,
           latDest,
           longDest
         );
-        let costType = configuration.costType;
-        let amount = calculateAmount(costType, configuration.deliveryRate, distance);
-        setDeliveryCharges(amount > 0 ? amount : configuration.deliveryRate);
+  
+        if (distance < 2) {
+          // For distances less than 2 km, set deliveryCharges to minimumDeliveryFee
+          setDeliveryCharges(configuration.minimumDeliveryFee);
+        } else {
+          // For distances greater than or equal to 2 km, calculate delivery charges
+          const costType = configuration.costType;
+          const calculatedAmount = calculateAmount(costType, configuration.deliveryRate, distance);
+          setDeliveryCharges(calculatedAmount > 0 ? calculatedAmount : configuration.deliveryRate);
+        }
       }
     })();
-  }, [data, location]);
+  }, [data, location, configuration]);
+  
+  
+  
 
   const onLoad = useCallback(
     (map) => {
@@ -251,7 +263,7 @@ function Checkout() {
   };
 
   function update(cache, { data: { placeOrder } }) {
-    console.log("update");
+    console.log("update divya");
     if (placeOrder && placeOrder.paymentMethod === "COD") {
       const data = cache.readQuery({ query: ORDERS });
       if (data) {
@@ -339,15 +351,17 @@ function Checkout() {
     return (itemTotal + deliveryAmount).toFixed(2);
   }
 
-  function calculateTotal() {
-    let total = 0;
-    const delivery = isPickUp ? 0 : deliveryCharges;
-    total += +calculatePrice(delivery, true);
-    total += +taxCalculation();
-    total += +calculateTip();
-    return parseFloat(total).toFixed(2);
+function calculateTotal() {
+  let total = 0;
+  const delivery = isPickUp ? 0 : deliveryCharges;
+  total += +calculatePrice(delivery, true);
+  total += +taxCalculation();
+  total += +calculateTip();
+  if (shouldAddMinimumFee) {
+    total += +configuration.minimumDeliveryFee;
   }
-
+  return parseFloat(total).toFixed(2);
+}
   function transformOrder(cartData) {
     return cartData.map((food) => {
       return {
@@ -640,6 +654,7 @@ function Checkout() {
             <Grid item xs={12} sm={6}>
               <CartItemCard
                 setSelectedTip={setSelectedTip}
+                shouldAddMinimumFee={shouldAddMinimumFee}
                 selectedTip={selectedTip}
                 setTaxValue={setTaxValue}
                 setCoupon={setCoupon}

@@ -95,22 +95,27 @@ function Checkout() {
 
   useEffect(() => {
     (async () => {
-      if (data && !!data.restaurant) {
+      if (data && !!data.restaurant && location) {
         const latOrigin = Number(data.restaurant.location.coordinates[1]);
         const lonOrigin = Number(data.restaurant.location.coordinates[0]);
         const latDest = Number(location.latitude);
         const longDest = Number(location.longitude);
-        const distance = await calculateDistance(
-          latOrigin,
-          lonOrigin,
-          latDest,
-          longDest
-        );
-        const amount = Math.ceil(distance) * configuration.deliveryRate;
-        setDeliveryCharges(amount > 0 ? amount : configuration.deliveryRate);
+        
+        // Calculate the distance
+        const distance = await calculateDistance(latOrigin, lonOrigin, latDest, longDest);
+        
+        // If the distance is less than 2 km, set the delivery charge to the minimumDeliveryFee
+        if (distance < 2) {
+          setDeliveryCharges(configuration.minimumDeliveryFee);
+        } else {
+          // Otherwise, calculate the delivery charge based on the distance
+          const amount = Math.ceil(distance) * configuration.deliveryRate;
+          setDeliveryCharges(amount > 0 ? amount : configuration.deliveryRate);
+        }
       }
     })();
-  }, [data, location]);
+  }, [data, location, configuration]);
+  
 
   const isOpen = () => {
     const date = new Date();
@@ -285,6 +290,7 @@ function Checkout() {
     total += +calculatePrice(delivery, true);
     total += +taxCalculation();
     total += +calculateTip();
+    total += +configuration.minimumDeliveryFee;
     return parseFloat(total).toFixed(2);
   }
 

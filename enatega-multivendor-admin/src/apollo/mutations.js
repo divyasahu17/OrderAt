@@ -295,6 +295,7 @@ export const saveDeliveryRateConfiguration = `mutation SaveDeliveryRateConfigura
     _id
     deliveryRate
     costType
+    minimumDeliveryFee
   }
 }`;
 

@@ -1,17 +1,46 @@
 import { Box, Divider, Grid, Paper, Typography, useTheme } from "@mui/material";
 import clsx from "clsx";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ConfigurationContext from "../../../context/Configuration";
 import { calculatePrice } from "../../../utils/customFunction";
 import useStyles from "./styles";
 import { useTranslation } from 'react-i18next';
+import { calculateDistance, calculateAmount } from "../../../utils/customFunction";
 
 export default function AmountCard(props) {
+  console.log(props , 'PROPS@1222')
   const { t } = useTranslation();
   const classes = useStyles();
   const configuration = useContext(ConfigurationContext);
-  const deliveryCharges = props.isPickedUp ? 0 : props.deliveryCharges;
+
+  const [deliveryChargesdata, setDeliveryChargesdata] = useState(0);
+  const [isBelowMinimumDistance, setIsBelowMinimumDistance] = useState(false);
   const theme = useTheme();
+
+  useEffect(() => {
+    (async () => {
+      const destinationObj = JSON.parse(localStorage.getItem("location"));
+      const latOrigin = Number(props.restaurant.location.coordinates[1]);
+      const lonOrigin = Number(props.restaurant.location.coordinates[0]);
+      const latDest = Number(destinationObj.latitude);
+      const longDest = Number(destinationObj.longitude);
+
+      const distance = await calculateDistance(latOrigin, lonOrigin, latDest, longDest);
+      console.log(distance , 'DISTANCE------------')
+
+      let costType = configuration.costType;
+
+      if (distance < 2) {
+        setDeliveryChargesdata(configuration.minimumDeliveryFee);
+        setIsBelowMinimumDistance(true);
+      } else {
+        let amount = calculateAmount(costType, configuration.deliveryRate, distance);
+        setDeliveryChargesdata(amount > 0 ? amount : configuration.deliveryRate);
+        setIsBelowMinimumDistance(false);
+      }
+    })();
+  }, [props, configuration]);
+
   return (
     <>
       <Grid container item xs={12}>
@@ -83,7 +112,7 @@ export default function AmountCard(props) {
                 >
                   {`${configuration.currencySymbol} ${parseFloat(
                     props.orderAmount -
-                      deliveryCharges -
+                    deliveryChargesdata -
                       props.taxationAmount -
                       props.tipping
                   ).toFixed(2)}`}
@@ -132,27 +161,30 @@ export default function AmountCard(props) {
               </Grid>
             </Grid>
             {!props.isPickedUp && (
-              <Grid container className={clsx(classes.cardRow, classes.mv2)}>
-                <Grid item xs={9}>
-                  <Typography
-                    variant="body2"
-                    className={clsx(classes.disabledText, classes.smallText)}
-                  >
-                    {t('deliveryFee')}
-                  </Typography>
+              <>
+                <Grid container className={clsx(classes.cardRow, classes.mv2)}>
+                  <Grid item xs={9}>
+                    <Typography
+                      variant="body2"
+                      className={clsx(classes.disabledText, classes.smallText)}
+                    >
+                      {t('deliveryFee')}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography
+                      variant="body2"
+                      className={clsx(classes.disabledText, classes.smallText)}
+                    >
+                      {`${configuration.currencySymbol} ${parseFloat(
+                        deliveryChargesdata
+                      ).toFixed(2)}`}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    variant="body2"
-                    className={clsx(classes.disabledText, classes.smallText)}
-                  >
-                    {`${configuration.currencySymbol} ${parseFloat(
-                      props.deliveryCharges
-                    ).toFixed(2)}`}
-                  </Typography>
-                </Grid>
-              </Grid>
+              </>
             )}
+
             <Grid container className={clsx(classes.cardRow, classes.mv2)}>
               <Grid item xs={9}>
                 <Box>
@@ -177,12 +209,11 @@ export default function AmountCard(props) {
                   color="textSecondary"
                   className={clsx(classes.textBold, classes.smallText)}
                 >
-                  {`${configuration.currencySymbol} ${parseFloat(
-                    props.orderAmount
-                  ).toFixed(2)}`}
+                       {`${configuration.currencySymbol} ${parseFloat(props.orderAmount ).toFixed(2)}`}
                 </Typography>
               </Grid>
             </Grid>
+
           </Paper>
         </Grid>
       </Grid>

@@ -8,7 +8,7 @@ const ConfigurableValues = () => {
   const WS_SERVER_URL = 'wss://query.orderat.ai'
  // const SERVER_URL = 'http://192.168.0.101:8001' 
  // const WS_SERVER_URL = 'ws://192.168.0.101:8001'
-  const GOOGLE_MAPS_KEY = configuration.googleApiKey ??  '' 
+  const GOOGLE_MAPS_KEY = configuration.googleApiKey ??  'AIzaSyCaXzEgiEKTtQgQhy0yPuBDA4bD7BFoPOY' 
   const FIREBASE_KEY = configuration.firebaseKey
   const APP_ID = configuration.appId
   const AUTH_DOMAIN = configuration.authDomain

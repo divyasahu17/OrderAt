@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const User = `
+
 query Users {
   users {
     _id
@@ -706,6 +707,30 @@ export const getCuisines = `query Cuisines{
     description
   }
 }`
+
+export const getUsersBySearch = `
+  query Users($search: String) {
+    search_users(search: $search) {
+      name
+      email
+      phone
+      appleId
+      userType
+      isActive
+      notificationToken
+      notificationTokenWeb
+      isOrderNotification
+      isOfferNotification
+      notifications
+      addresses {
+      }
+      favourite
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 
 export const rider = `query Rider($id:String){
   rider(id:$id){

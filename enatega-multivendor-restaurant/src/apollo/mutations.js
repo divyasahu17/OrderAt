@@ -43,3 +43,23 @@ export const toggleAvailability = `mutation ToggleAvailability{
 export const muteRingOrder = `mutation muteRing($orderId:String){
   muteRing(orderId:$orderId)
 }`
+
+export const findOrCreateUser = `
+mutation FindOrCreateUser($userInput: UserInput!) {
+  findOrCreateUser(userInput: $userInput) {
+    _id
+    name
+    phone
+    addresses {
+      _id
+      deliveryAddress
+      details
+      label
+      selected
+      isActive
+    }
+  }
+}
+`;
+
+

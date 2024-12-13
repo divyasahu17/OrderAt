@@ -220,6 +220,7 @@ export const getConfiguration = `query GetConfiguration{
       currency
       currencySymbol
       deliveryRate
+      minimumDeliveryFee
       twilioAccountSid
       twilioAuthToken
       twilioPhoneNumber
@@ -721,3 +722,26 @@ export const withdrawRequestQuery = `query GetWithdrawRequests($offset:Int){
           }
       }
   }`
+
+  export const getUsersBySearch = `
+  query Users($search: String) {
+    search_users(search: $search) {
+      name
+      email
+      phone
+      appleId
+      userType
+      isActive
+      notificationToken
+      notificationTokenWeb
+      isOrderNotification
+      isOfferNotification
+      notifications
+      addresses {
+      }
+      favourite
+      createdAt
+      updatedAt
+    }
+  }
+`

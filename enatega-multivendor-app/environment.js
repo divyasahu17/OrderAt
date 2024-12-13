@@ -38,7 +38,7 @@ const useEnvVars = (env = Updates.channel) => {
     IOS_CLIENT_ID_GOOGLE: configuration.iOSClientID,
     ANDROID_CLIENT_ID_GOOGLE: configuration.androidClientID,
     AMPLITUDE_API_KEY: configuration.appAmplitudeApiKey,
-    GOOGLE_MAPS_KEY: configuration.googleApiKey ??  '',
+    GOOGLE_MAPS_KEY: configuration.googleApiKey ??  'AIzaSyCaXzEgiEKTtQgQhy0yPuBDA4bD7BFoPOY',
     EXPO_CLIENT_ID: configuration.expoClientID,
     SENTRY_DSN: configuration.customerAppSentryUrl,
     TERMS_AND_CONDITIONS: configuration.termsAndConditions,

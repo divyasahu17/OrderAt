@@ -14,7 +14,7 @@ const ConfigurableValues = () => {
   const GOOGLE_CLIENT_ID = configuration?.webClientID;
   const STRIPE_PUBLIC_KEY = configuration?.publishableKey;
   const PAYPAL_KEY = configuration?.clientId;
-  const GOOGLE_MAPS_KEY = configuration?.googleApiKey ??  '' ;
+  const GOOGLE_MAPS_KEY = configuration?.googleApiKey ??  'AIzaSyCaXzEgiEKTtQgQhy0yPuBDA4bD7BFoPOY' ;
   const AMPLITUDE_API_KEY = configuration?.webAmplitudeApiKey;
   const LIBRARIES = "places,drawing,geometry,localContext,visualization".split(
     ","

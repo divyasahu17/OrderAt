@@ -14,6 +14,30 @@ export const sendChatMessage = `mutation SendChatMessage($orderId: ID!, $message
     }
   }
   `
+export const CheckOutPlaceOrder = `
+mutation CheckOutPlaceOrder($userId: ID!, $addressId: ID!, $orderAmount: Float!) {
+  CheckOutPlaceOrder(userId: $userId, addressId: $addressId, orderAmount: $orderAmount) {
+    _id
+    orderId
+    user {
+      _id
+      name
+      phone
+    }
+    deliveryAddress {
+      _id
+      deliveryAddress
+      details
+      label
+    }
+    orderAmount
+    paymentStatus
+    orderStatus
+    isActive
+    createdAt
+    updatedAt
+  }
+}`
 
 export const placeOrder = `
   mutation PlaceOrder($restaurant:String!,$orderInput:[OrderInput!]!,$paymentMethod:String!,$couponCode:String,$tipping:Float!, $taxationAmount: Float!,$address:AddressInput!, $orderDate: String!,$isPickedUp: Boolean!, $deliveryCharges: Float!, $instructions: String){
@@ -376,3 +400,20 @@ export const cancelOrder = `
               orderStatus
             }
           }`
+          
+export const findOrCreateUser = `
+    mutation FindOrCreateUser($userInput: UserInput!) {
+       findOrCreateUser(userInput: $userInput) {
+        _id
+        name
+        phone
+        addresses {
+         _id
+         deliveryAddress
+         details
+         label
+         selected
+         isActive
+      }
+    }
+  }`
